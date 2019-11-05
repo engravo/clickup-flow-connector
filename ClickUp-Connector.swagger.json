@@ -1,0 +1,1348 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ClickUp Connector",
+    "description": "Custom connector for Microsoft Flow to connect to ClickUp API",
+    "version": "1.1"
+  },
+  "host": "api.clickup.com",
+  "basePath": "/api/v2",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/team": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "teams": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Team ID",
+                        "title": "Team ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Team Name",
+                        "title": "Team Name"
+                      }
+                    }
+                  },
+                  "description": "teams"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get teams",
+        "description": "Get teams",
+        "operationId": "GetTeams",
+        "parameters": [],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/team/{Team id}/space": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "spaces": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Space ID",
+                        "title": "Space ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Space Name",
+                        "title": "Space Name"
+                      }
+                    }
+                  },
+                  "description": "spaces"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get spaces",
+        "description": "Choose a team and get the spaces",
+        "operationId": "GetSpaces",
+        "parameters": [
+          {
+            "name": "Team id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Choose a team",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTeams",
+              "value-path": "id",
+              "value-collection": "teams",
+              "value-title": "name"
+            }
+          },
+          {
+            "name": "Archived",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Is archived?"
+          }
+        ]
+      }
+    },
+    "/space/{Space id}/folder": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "folders": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Folder ID",
+                        "title": "Folder ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Folder Name",
+                        "title": "Folder Name"
+                      }
+                    }
+                  },
+                  "description": "folders"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get folders",
+        "description": "Get folders",
+        "operationId": "GetFolders",
+        "parameters": [
+          {
+            "name": "Space id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Enter space id"
+          },
+          {
+            "name": "Archived",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Is archived?"
+          }
+        ]
+      }
+    },
+    "/task/{Task id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Task id",
+                  "title": "Task id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Task name",
+                  "title": "Task name"
+                },
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status",
+                      "title": "Status"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "Status color",
+                      "title": "Status color"
+                    },
+                    "orderindex": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Status orderindex",
+                      "title": "Status orderindex"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Status type",
+                      "title": "Status type"
+                    }
+                  },
+                  "description": "status"
+                },
+                "orderindex": {
+                  "type": "string",
+                  "description": "Orderindex",
+                  "title": "Orderindex"
+                },
+                "date_created": {
+                  "type": "string",
+                  "description": "Date created",
+                  "title": "Date created"
+                },
+                "date_updated": {
+                  "type": "string",
+                  "description": "Date updated",
+                  "title": "Date updated"
+                },
+                "date_closed": {
+                  "type": "string",
+                  "description": "Date closed",
+                  "title": "Date closed"
+                },
+                "archived": {
+                  "type": "boolean",
+                  "description": "Archived",
+                  "title": "Archived",
+                  "enum": [
+                    "",
+                    "true",
+                    "false"
+                  ]
+                },
+                "creator": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Creator id",
+                      "title": "Creator id"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "Creator username",
+                      "title": "Creator username"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "Creator color",
+                      "title": "Creator color"
+                    },
+                    "profilePicture": {
+                      "type": "string",
+                      "description": "Creator profile picture",
+                      "title": "Creator profile picture"
+                    }
+                  },
+                  "description": "creator"
+                },
+                "assignees": {
+                  "type": "array",
+                  "items": {
+                    "description": "Assignees",
+                    "title": "Assignees",
+                    "type": "string"
+                  },
+                  "description": "assignees"
+                },
+                "checklists": {
+                  "type": "array",
+                  "items": {
+                    "description": "Checklists",
+                    "title": "Checklists",
+                    "type": "string"
+                  },
+                  "description": "checklists"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Tags name",
+                        "title": "Tags name"
+                      },
+                      "tag_fg": {
+                        "type": "string",
+                        "description": "Tags fg",
+                        "title": "Tags fg"
+                      },
+                      "tag_bg": {
+                        "type": "string",
+                        "description": "Tags bg",
+                        "title": "Tags bg"
+                      }
+                    }
+                  },
+                  "description": "tags"
+                },
+                "parent": {
+                  "type": "string",
+                  "description": "Parent",
+                  "title": "Parent"
+                },
+                "priority": {
+                  "type": "string",
+                  "description": "Priority",
+                  "title": "Priority"
+                },
+                "due_date": {
+                  "type": "string",
+                  "description": "Due date",
+                  "title": "Due date"
+                },
+                "start_date": {
+                  "type": "string",
+                  "description": "Start date",
+                  "title": "Start date"
+                },
+                "time_estimate": {
+                  "type": "string",
+                  "description": "Time estimate",
+                  "title": "Time estimate"
+                },
+                "time_spent": {
+                  "type": "string",
+                  "description": "Time spent",
+                  "title": "Time spent"
+                },
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "List id",
+                      "title": "List id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "List name",
+                      "title": "List name"
+                    },
+                    "access": {
+                      "type": "boolean",
+                      "description": "List access",
+                      "title": "List access",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    }
+                  },
+                  "description": "list"
+                },
+                "project": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Project id",
+                      "title": "Project id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Project name",
+                      "title": "Project name"
+                    },
+                    "hidden": {
+                      "type": "boolean",
+                      "description": "Project hidden",
+                      "title": "Project hidden",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "access": {
+                      "type": "boolean",
+                      "description": "Project access",
+                      "title": "Project access",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    }
+                  },
+                  "description": "project"
+                },
+                "folder": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Folder id",
+                      "title": "Folder id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Folder name",
+                      "title": "Folder name"
+                    },
+                    "hidden": {
+                      "type": "boolean",
+                      "description": "Folder hidden",
+                      "title": "Folder hidden",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    },
+                    "access": {
+                      "type": "boolean",
+                      "description": "Folder access",
+                      "title": "Folder access",
+                      "enum": [
+                        "",
+                        "true",
+                        "false"
+                      ]
+                    }
+                  },
+                  "description": "folder"
+                },
+                "space": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Space id",
+                      "title": "Space id"
+                    }
+                  },
+                  "description": "space"
+                },
+                "custom_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Custom fields id",
+                        "title": "Custom fields id"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Custom fields name",
+                        "title": "Custom fields name"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Custom fields type",
+                        "title": "Custom fields type"
+                      },
+                      "type_config": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Custom fields type config default",
+                            "title": "Custom fields type config default"
+                          },
+                          "placeholder": {
+                            "type": "string",
+                            "description": "Custom fields type config placeholder",
+                            "title": "Custom fields type config placeholder"
+                          },
+                          "new_drop_down": {
+                            "type": "boolean",
+                            "description": "Custom fields type config new dropdown",
+                            "title": "Custom fields type config new dropdown",
+                            "enum": [
+                              "",
+                              "true",
+                              "false"
+                            ]
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "Custom fields options id",
+                                  "title": "Custom fields options id"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Custom fields options name",
+                                  "title": "Custom fields options name"
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "Custom fields options value",
+                                  "title": "Custom fields options value"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "description": "type"
+                                },
+                                "color": {
+                                  "type": "string",
+                                  "description": "color"
+                                },
+                                "orderindex": {
+                                  "type": "integer",
+                                  "format": "int32",
+                                  "description": "orderindex"
+                                }
+                              }
+                            },
+                            "description": "options"
+                          }
+                        },
+                        "description": "type_config"
+                      },
+                      "date_created": {
+                        "type": "string",
+                        "description": "Custom fields date created",
+                        "title": "Custom fields date created"
+                      },
+                      "hide_from_guests": {
+                        "type": "boolean",
+                        "description": "Custom fields hide from guests",
+                        "title": "Custom fields hide from guests",
+                        "enum": [
+                          "",
+                          "true",
+                          "false"
+                        ]
+                      },
+                      "value": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Custom fields value",
+                        "title": "Custom fields value"
+                      }
+                    }
+                  },
+                  "description": "Custom fields"
+                },
+                "dependencies": {
+                  "type": "array",
+                  "items": {
+                    "description": "Dependencies",
+                    "title": "Dependencies",
+                    "type": "string"
+                  },
+                  "description": "dependencies"
+                },
+                "team_id": {
+                  "type": "string",
+                  "description": "Team id",
+                  "title": "Team id"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "URL",
+                  "title": "URL"
+                },
+                "attachments": {
+                  "type": "array",
+                  "items": {
+                    "description": "Attachements",
+                    "title": "Attachements",
+                    "type": "string"
+                  },
+                  "description": "attachments"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get task by id",
+        "description": "Get task by id",
+        "operationId": "GetTaskByID",
+        "parameters": [
+          {
+            "name": "Task id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Enter task id"
+          }
+        ]
+      }
+    },
+    "/list/{List id}/field": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Custom field id",
+                        "title": "Custom field id"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Custom field name",
+                        "title": "Custom field name"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Custom field type",
+                        "title": "Custom field type"
+                      },
+                      "type_config": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Default",
+                            "title": "Default"
+                          },
+                          "placeholder": {
+                            "type": "string",
+                            "description": "Placeholder",
+                            "title": "Placeholder"
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "id"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "name"
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "value"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "description": "type"
+                                },
+                                "color": {
+                                  "type": "string",
+                                  "description": "color"
+                                },
+                                "orderindex": {
+                                  "type": "integer",
+                                  "format": "int32",
+                                  "description": "orderindex"
+                                }
+                              }
+                            },
+                            "description": "options"
+                          },
+                          "new_drop_down": {
+                            "type": "boolean",
+                            "description": "New drop down",
+                            "title": "New drop down",
+                            "enum": [
+                              "",
+                              "true",
+                              "false"
+                            ]
+                          },
+                          "tracking": {
+                            "type": "object",
+                            "properties": {
+                              "subtasks": {
+                                "type": "boolean",
+                                "description": "Subtasks",
+                                "title": "Subtasks",
+                                "enum": [
+                                  "",
+                                  "true",
+                                  "false"
+                                ]
+                              },
+                              "checklists": {
+                                "type": "boolean",
+                                "description": "Checklists",
+                                "title": "Checklists",
+                                "enum": [
+                                  "",
+                                  "true",
+                                  "false"
+                                ]
+                              },
+                              "assigned_comments": {
+                                "type": "boolean",
+                                "description": "Assign comments",
+                                "title": "Assign comments",
+                                "enum": [
+                                  "",
+                                  "true",
+                                  "false"
+                                ]
+                              }
+                            },
+                            "description": "tracking"
+                          },
+                          "complete_on": {
+                            "type": "integer",
+                            "format": "int32",
+                            "description": "Complete on",
+                            "title": "Complete on"
+                          }
+                        },
+                        "description": "type_config"
+                      },
+                      "date_created": {
+                        "type": "string",
+                        "description": "Date created",
+                        "title": "Date created"
+                      },
+                      "hide_from_guests": {
+                        "type": "boolean",
+                        "description": "Hide from guests",
+                        "title": "Hide from guests",
+                        "enum": [
+                          "",
+                          "true",
+                          "false"
+                        ]
+                      }
+                    }
+                  },
+                  "description": "fields"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get accessible custom fields",
+        "description": "Get accessible custom fields",
+        "operationId": "GetAccessibleCustomFields",
+        "parameters": [
+          {
+            "name": "List id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Enter list id"
+          }
+        ]
+      }
+    },
+    "/task/{Task id}/comment": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "id",
+                  "title": "id"
+                },
+                "hist_id": {
+                  "type": "string",
+                  "description": "Hist id",
+                  "title": "Hist id"
+                },
+                "date": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Date",
+                  "title": "Date"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Post task comment",
+        "description": "Post task comment",
+        "operationId": "PostTaskComment",
+        "parameters": [
+          {
+            "name": "Task id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment_text": {
+                  "type": "string",
+                  "description": "Comment text",
+                  "title": "Comment text"
+                },
+                "assignee": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Assignee",
+                  "title": "Assignee"
+                }
+              },
+              "required": [
+                "comment_text"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/list/{List id}/task": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "id"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "name"
+                  },
+                  "status": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "description": "status"
+                      },
+                      "color": {
+                        "type": "string",
+                        "description": "Status color",
+                        "title": "Status color",
+                        "x-ms-visibility": "internal"
+                      },
+                      "orderindex": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "orderindex"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "type"
+                      }
+                    },
+                    "description": "status"
+                  },
+                  "orderindex": {
+                    "type": "string",
+                    "description": "orderindex"
+                  },
+                  "date_created": {
+                    "type": "string",
+                    "description": "date_created"
+                  },
+                  "date_updated": {
+                    "type": "string",
+                    "description": "date_updated"
+                  },
+                  "date_closed": {
+                    "type": "string",
+                    "description": "date_closed"
+                  },
+                  "creator": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Creator id",
+                        "title": "Creator id"
+                      },
+                      "username": {
+                        "type": "string",
+                        "description": "Username",
+                        "title": "Username"
+                      },
+                      "color": {
+                        "type": "string",
+                        "description": "Creator color",
+                        "title": "Creator color"
+                      },
+                      "profilePicture": {
+                        "type": "string",
+                        "description": "Profile picture",
+                        "title": "Profile picture"
+                      }
+                    },
+                    "description": "creator"
+                  },
+                  "assignees": {
+                    "type": "array",
+                    "items": {},
+                    "description": "assignees"
+                  },
+                  "checklists": {
+                    "type": "array",
+                    "items": {},
+                    "description": "checklists"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {},
+                    "description": "tags"
+                  },
+                  "parent": {
+                    "type": "string",
+                    "description": "parent"
+                  },
+                  "priority": {
+                    "type": "string",
+                    "description": "priority"
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "description": "due_date"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "description": "start_date"
+                  },
+                  "time_estimate": {
+                    "type": "string",
+                    "description": "time_estimate"
+                  },
+                  "time_spent": {
+                    "type": "string",
+                    "description": "time_spent"
+                  },
+                  "list": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "List id",
+                        "title": "List id"
+                      }
+                    },
+                    "description": "list"
+                  },
+                  "folder": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Folder id",
+                        "title": "Folder id"
+                      }
+                    },
+                    "description": "folder"
+                  },
+                  "space": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Space id",
+                        "title": "Space id"
+                      }
+                    },
+                    "description": "space"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "url"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get tasks from list",
+        "description": "Get tasks from list",
+        "operationId": "GetTasksFromList",
+        "parameters": [
+          {
+            "name": "List id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "archived",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "name"
+                },
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "status"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "color"
+                    },
+                    "orderindex": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "orderindex"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "type"
+                    }
+                  },
+                  "description": "status"
+                },
+                "orderindex": {
+                  "type": "string",
+                  "description": "orderindex"
+                },
+                "date_created": {
+                  "type": "string",
+                  "description": "date_created"
+                },
+                "date_updated": {
+                  "type": "string",
+                  "description": "date_updated"
+                },
+                "date_closed": {
+                  "type": "string",
+                  "description": "date_closed"
+                },
+                "creator": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "id"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "username"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "color"
+                    },
+                    "profilePicture": {
+                      "type": "string",
+                      "description": "profilePicture"
+                    }
+                  },
+                  "description": "creator"
+                },
+                "assignees": {
+                  "type": "array",
+                  "items": {},
+                  "description": "assignees"
+                },
+                "checklists": {
+                  "type": "array",
+                  "items": {},
+                  "description": "checklists"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {},
+                  "description": "tags"
+                },
+                "parent": {
+                  "type": "string",
+                  "description": "parent"
+                },
+                "priority": {
+                  "type": "string",
+                  "description": "priority"
+                },
+                "due_date": {
+                  "type": "string",
+                  "description": "due_date"
+                },
+                "start_date": {
+                  "type": "string",
+                  "description": "start_date"
+                },
+                "time_estimate": {
+                  "type": "string",
+                  "description": "time_estimate"
+                },
+                "time_spent": {
+                  "type": "string",
+                  "description": "time_spent"
+                },
+                "list": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id"
+                    }
+                  },
+                  "description": "list"
+                },
+                "folder": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id"
+                    }
+                  },
+                  "description": "folder"
+                },
+                "space": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "id"
+                    }
+                  },
+                  "description": "space"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "url"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create task",
+        "operationId": "CreateTask",
+        "parameters": [
+          {
+            "name": "List id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "name"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "content"
+                },
+                "assignees": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "description": "assignees"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "tags"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "status"
+                },
+                "priority": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "priority"
+                },
+                "due_date": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "due_date"
+                },
+                "due_date_time": {
+                  "type": "boolean",
+                  "description": "due_date_time"
+                },
+                "time_estimate": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "time_estimate"
+                },
+                "start_date": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "start_date"
+                },
+                "start_date_time": {
+                  "type": "boolean",
+                  "description": "start_date_time"
+                },
+                "notify_all": {
+                  "type": "boolean",
+                  "description": "notify_all"
+                },
+                "custom_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "id"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "value"
+                      }
+                    }
+                  },
+                  "description": "custom_fields"
+                }
+              }
+            }
+          }
+        ],
+        "description": "Create task"
+      }
+    },
+    "/task/{Task id}/attachment": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "id"
+                },
+                "version": {
+                  "type": "string",
+                  "description": "version"
+                },
+                "date": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "date"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "title"
+                },
+                "extension": {
+                  "type": "string",
+                  "description": "extension"
+                },
+                "thumbnail_small": {
+                  "type": "string",
+                  "description": "thumbnail_small"
+                },
+                "thumbnail_large": {
+                  "type": "string",
+                  "description": "thumbnail_large"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "url"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Post attachment",
+        "description": "Post attachment",
+        "operationId": "PostAttachment",
+        "parameters": [
+          {
+            "name": "Task id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "API Key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [
+    {
+      "API Key": []
+    }
+  ],
+  "tags": []
+}
