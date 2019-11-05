@@ -23,14 +23,14 @@ A swagger file to build a custom connector for Microsoft Flow to connect to Clic
 7. For Authentication type **choose API Key**
 8. For Parameter label enter `API Key`
 9. For Parameter name enter `Authorization`
-10. Parameter location **choose Header**
+10. For Parameter location **choose Header**
 
 ## Definitions
 
 | Definition | Description |
 |--|--|
 | GetTeams  | Gets the teams that you are a member of |
-| GetSpaces | Gets the spaces from a team team you choose |
+| GetSpaces | Gets the spaces from a team you choose |
 | GetFolders | Enter a space id and get the folders that belong to that space |
 | GetTaskByID | Enter a task id and get a whole lot of dynamic content you can work with in further action steps |
 | GetAccessableCustomFields | Enter a list id and get all the custom fields |
