@@ -1,6 +1,8 @@
 # ClickUp Flow Connector
 A swagger file to build a custom connector for Microsoft Flow to connect to ClickUp API. Follow the step by step instructions to get it running.
 
+> You have to be on a paid plan since connectors like HTTP Request (needed for listening to ClickUp Webhooks and trigger actions based on events like e.g. TaskCreated or TaskUpdated) and creating custom connectors for Power Automate (Flow) are premium features only! Keep that in mind. 
+
 ## ClickUp API Token
 
 1. Go to ClickUp and hit your face (not literally) at the bottom left
